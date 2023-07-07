@@ -8,4 +8,8 @@ import (
 
 func main() {
 	fmt.Println(todo.TodoList())
+
+	for {
+		
+	}
 }
