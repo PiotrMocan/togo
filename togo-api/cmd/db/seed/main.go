@@ -1,13 +1,13 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
 
 	_ "github.com/lib/pq"
+	"togoapi.com/internal/dbclient"
 )
 
 func main() {
@@ -28,15 +28,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db, err := sql.Open("postgres", "postgres://postgres:@localhost/togo_dev?sslmode=disable")
+	db, err := dbclient.NewClient()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+	defer db.DB.Close()
 
 	// Iterate over the records and insert them into the database
 	for _, record := range records {
-		_, err := db.Exec("INSERT INTO todos (title, completed) VALUES ($1, $2)", record[0], record[1])
+		_, err := db.DB.Exec("INSERT INTO todos (title, completed) VALUES ($1, $2)", record[0], record[1])
 		if err != nil {
 			log.Fatal(err)
 		}

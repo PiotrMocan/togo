@@ -1,26 +1,23 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
+	"togoapi.com/internal/dbclient"
 )
 
 func main() {
-	// PostgreSQL connection string
-	connStr := "postgres://postgres:@localhost:5432/?sslmode=disable"
-
 	// Connect to the PostgreSQL database
-	db, err := sql.Open("postgres", connStr)
+	db, err := dbclient.NewClient()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+	defer db.DB.Close()
 
 	// Create the database if it doesn't exist
-	_, err = db.Exec("CREATE DATABASE togo_dev")
+	_, err = db.DB.Exec("CREATE DATABASE togo_dev")
 	if err != nil {
 		log.Fatal(err)
 	}

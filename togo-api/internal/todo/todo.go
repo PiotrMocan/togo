@@ -1,10 +1,10 @@
 package todo
 
 import (
-	"database/sql"
 	"log"
 
 	_ "github.com/lib/pq"
+	"togoapi.com/internal/dbclient"
 )
 
 type Todo struct {
@@ -16,12 +16,12 @@ type Todo struct {
 type Todos []Todo
 
 func TodoList() Todos {
-	db, err := sql.Open("postgres", "postgres://postgres:@localhost/togo_dev?sslmode=disable")
+	db, err := dbclient.NewClient()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	rows, err := db.Query("SELECT id, title, completed FROM todos")
+	rows, err := db.DB.Query("SELECT id, title, completed FROM todos")
 	if err != nil {
 		log.Fatal(err)
 	}

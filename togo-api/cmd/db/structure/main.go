@@ -1,12 +1,12 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
 
 	_ "github.com/lib/pq"
+	"togoapi.com/internal/dbclient"
 )
 
 func main() {
@@ -18,14 +18,14 @@ func main() {
 	}
 
 	// Connect to the database
-	db, err := sql.Open("postgres", "postgres://postgres:@localhost/togo_dev?sslmode=disable")
+	db, err := dbclient.NewClient()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+	defer db.DB.Close()
 
 	// Execute the SQL statements from the structure.sql file
-	_, err = db.Exec(string(sqlFile))
+	_, err = db.DB.Exec(string(sqlFile))
 	if err != nil {
 		log.Fatal(err)
 	}
