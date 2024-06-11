@@ -1,9 +1,9 @@
 package todo
 
 type Todo struct {
-	ID int
-	Title string
-	Completed bool
+	ID        int    `json:"id"`
+	Title     string `json:"title"`
+	Completed bool   `json:"completed"`
 }
 
 type Todos []Todo
