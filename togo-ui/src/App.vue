@@ -6,7 +6,7 @@ onBeforeMount(async () => {
   const json = await response.json();
   todos.value = json.todos;
 });
-console.log(todos);
+
 </script>
 
 <template>
