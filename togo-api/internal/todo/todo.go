@@ -1,5 +1,12 @@
 package todo
 
+import (
+	"database/sql"
+	"log"
+
+	_ "github.com/lib/pq"
+)
+
 type Todo struct {
 	ID        int    `json:"id"`
 	Title     string `json:"title"`
@@ -9,9 +16,31 @@ type Todo struct {
 type Todos []Todo
 
 func TodoList() Todos {
-	return []Todo{
-		{ID: 1, Title: "Go to the store", Completed: false},
-		{ID: 2, Title: "Buy milk", Completed: false},
-		{ID: 3, Title: "Feed the cat", Completed: false},
+	db, err := sql.Open("postgres", "postgres://postgres:@localhost/togo_dev?sslmode=disable")
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	rows, err := db.Query("SELECT id, title, completed FROM todos")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	var todos Todos
+	for rows.Next() {
+		var todo Todo
+		err := rows.Scan(&todo.ID, &todo.Title, &todo.Completed)
+		if err != nil {
+			log.Fatal(err)
+		}
+		todos = append(todos, todo)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return todos
 }

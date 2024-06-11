@@ -12,7 +12,7 @@ func main() {
 	router.Use(cors.Default())
 
 	config := cors.Config{
-		AllowOrigins:     []string{"*"}, // Your frontend's origin
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
