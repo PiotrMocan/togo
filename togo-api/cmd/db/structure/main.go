@@ -10,13 +10,6 @@ import (
 )
 
 func main() {
-	// Database connection parameters
-	dbHost := "localhost"
-	dbPort := 5432
-	dbUser := "postgres"
-	dbPassword := ""
-	dbName := "togo_dev"
-
 	// Read the structure.sql file
 	workingDir, _ := os.Getwd()
 	sqlFile, err := os.ReadFile(workingDir + "/cmd/db/structure/structure.sql")
@@ -24,12 +17,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Create the database connection string
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		dbHost, dbPort, dbUser, dbPassword, dbName)
-
 	// Connect to the database
-	db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("postgres", "postgres://postgres:@localhost/togo_dev?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
