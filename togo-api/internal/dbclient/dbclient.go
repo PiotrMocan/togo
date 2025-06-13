@@ -12,7 +12,7 @@ type Client struct {
 }
 
 func NewClient() (*Client, error) {
-	db, err := sql.Open("postgres", "postgres://postgres:@localhost/togo_dev?sslmode=disable")
+	db, err := sql.Open("postgres", "postgres://postgres:admin@localhost/togo_dev?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
