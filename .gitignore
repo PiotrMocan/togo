@@ -21,3 +21,9 @@
 go.work
 
 .vscode
+
+# API build artifacts
+togo-api/togoapi.com
+togo-api/seed_users
+togo-api/main
+togo-api/togo-api
